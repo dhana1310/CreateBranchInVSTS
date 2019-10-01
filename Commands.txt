@@ -1,0 +1,8 @@
+cd C:\\Users\\uuu\\Devops
+git clone https://jbhunt.visualstudio.com/EngAndTech/_git/ppp
+cd ppp
+git checkout -b bbb
+git push origin bbb --set-upstream
+DEL /F /Q /S *.* > NUL
+cd ..
+RMDIR /Q /S ppp
