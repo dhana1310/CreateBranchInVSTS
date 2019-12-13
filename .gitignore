@@ -1,0 +1,14 @@
+/target/**
+/Server/target/**
+/Client/target/**
+
+.classpath
+.factorypath
+.springBeans
+.project
+.settings
+*.projects
+*.prefs
+
+.idea
+*.iml

@@ -25,9 +25,13 @@ public class Main {
         String userName = scanner.nextLine();
         userName = trimString(userName);
 
-        System.out.println("Enter the branch name");
-        String branchName = scanner.nextLine();
-        branchName = trimString(branchName);
+        System.out.println("Enter the source branch name");
+        String sourceBranchName = scanner.nextLine();
+        sourceBranchName = trimString(sourceBranchName);
+
+        System.out.println("Enter the target branch name");
+        String targetBranchName = scanner.nextLine();
+        targetBranchName = trimString(targetBranchName);
 
         File devOpsCheckFile = new File("C:\\Users\\" + userName + "\\Devops");
         File projectNamesFile = new File("C:\\Users\\"+ userName +"\\Devops\\ProjectNames.txt");
@@ -37,7 +41,7 @@ public class Main {
 
         List<String> commandsList = new ArrayList<>();
 
-        getCommands(commandsList, commandsFile, userName, branchName);
+        getCommands(commandsList, commandsFile, userName, sourceBranchName, targetBranchName);
 
         createBranches(projectNamesFile, commandsList);
 
@@ -60,15 +64,20 @@ public class Main {
         }
     }
 
-    private static void getCommands(List<String> commandsList, File commandsFile, String userName, String branchName) {
+    private static void getCommands(List<String> commandsList, File commandsFile, String userName, String sourceBranchName, String targetBranchName) {
         try {
 
             Scanner commandsFileSC = new Scanner(commandsFile);
             while (commandsFileSC.hasNextLine()) {
 
-                String inputCommand = trimString(commandsFileSC.nextLine());
+                String nextCommand = commandsFileSC.nextLine();
+                if(nextCommand.contains("#")){
+                    continue;
+                }
+                String inputCommand = trimString(nextCommand);
                 String changedCommand = StringUtils.replace(inputCommand, "uuu", userName);
-                changedCommand = StringUtils.replace(changedCommand, "bbb", branchName);
+                changedCommand = StringUtils.replace(changedCommand, "tttbbb", targetBranchName);
+                changedCommand = StringUtils.replace(changedCommand, "sssbbb", sourceBranchName);
                 commandsList.add(changedCommand);
             }
         } catch (IOException e) {
@@ -90,8 +99,8 @@ public class Main {
 
                 System.out.println("Working on project - " + projectName);
                 ProcessBuilder processBuilder = new ProcessBuilder();
-                //processBuilder.command("cmd.exe", "/c", combinedCommand);
-                processBuilder.command("cmd.exe", "/c", "echo hello");
+                processBuilder.command("cmd.exe", "/c", combinedCommand);
+               // processBuilder.command("cmd.exe", "/c", "echo hello");
 
                 Process process = processBuilder.start();
 
